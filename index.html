@@ -14,6 +14,7 @@
       --teal: #0f8a83;
       --blue: #315dba;
       --aws: #ff9900;
+      --purple: #6941c6;
       --shadow: 0 18px 48px rgba(22, 30, 46, .10);
     }
 
@@ -129,6 +130,7 @@
     }
 
     .card:nth-child(2) .eyebrow { color: var(--blue); }
+    .card:nth-child(3) .eyebrow { color: var(--purple); }
 
     h2 {
       margin: 0;
@@ -158,6 +160,15 @@
     .card:nth-child(2) .cta {
       background: #232f3e;
       color: var(--aws);
+    }
+
+    .card:nth-child(3) .cta {
+      background: var(--purple);
+      color: #fff;
+    }
+
+    .card:nth-child(3):hover {
+      border-color: var(--purple);
     }
 
     @media (max-width: 760px) {
@@ -203,6 +214,15 @@
           <p class="eyebrow">Demo 2</p>
           <h2>Co-Sell MDF Portal</h2>
           <p>Shows the customer perspective: the Co-Sell Agent pre-fills an MDF submission, human checks it, approves it, and submits to AWS.</p>
+        </div>
+        <span class="cta">Open demo</span>
+      </a>
+
+      <a class="card" href="h3_gravity_well.html">
+        <div>
+          <p class="eyebrow">Demo 3</p>
+          <h2>Horizon 3 Gravity Well</h2>
+          <p>Explores next-horizon agentic strategies and how SaaSNova builds compounding GTM momentum through network and ecosystem effects.</p>
         </div>
         <span class="cta">Open demo</span>
       </a>
