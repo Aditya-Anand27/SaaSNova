@@ -1,0 +1,1049 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Horizon 2 Agent Team Demo</title>
+  <style>
+    :root {
+      --ink: #18212f;
+      --muted: #667085;
+      --line: #d9e0ea;
+      --paper: #f7f4ee;
+      --panel: #ffffff;
+      --teal: #0f8a83;
+      --coral: #e46b52;
+      --gold: #c98a18;
+      --green: #248b55;
+      --blue: #3666b8;
+      --soft-teal: #e6f4f2;
+      --soft-coral: #fae9e4;
+      --soft-gold: #fff0ce;
+      --soft-green: #e8f4ed;
+      --soft-blue: #e9eefb;
+      --shadow: 0 16px 45px rgba(24, 33, 47, .10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(24, 33, 47, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(24, 33, 47, .035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 42px 42px;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input, textarea {
+      font: inherit;
+    }
+
+    .shell {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 52px;
+      border-bottom: 1px solid rgba(24, 33, 47, .12);
+      padding-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 220px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .brand-copy span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .status-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(36, 139, 85, .12);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(250px, .45fr) minmax(0, 1.75fr);
+      gap: 22px;
+      align-items: stretch;
+      padding-top: 24px;
+    }
+
+    .briefing {
+      min-height: 540px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .briefing-header {
+      padding: 18px 18px 15px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      font-size: 12px;
+      color: var(--coral);
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(25px, 2.35vw, 36px);
+      line-height: 1.02;
+      letter-spacing: 0;
+      max-width: 14ch;
+    }
+
+    .lead {
+      margin: 12px 0 0;
+      color: #475467;
+      font-size: 14px;
+      line-height: 1.45;
+      max-width: 42rem;
+    }
+
+    .client-card {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .client-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .client-row h2,
+    .panel-title h2,
+    .agent-detail h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .client-row p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .score {
+      min-width: 78px;
+      text-align: right;
+    }
+
+    .score strong {
+      display: block;
+      font-size: 24px;
+      line-height: .9;
+      color: var(--teal);
+    }
+
+    .score span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 11px;
+      color: #344054;
+      background: #fbfcfd;
+      white-space: nowrap;
+    }
+
+    .inputs {
+      padding: 14px 18px 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .input-line {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 9px;
+      align-items: start;
+      color: #344054;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .input-line b {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: var(--ink);
+      background: var(--soft-gold);
+      font-size: 12px;
+    }
+
+    .human-loop {
+      margin-top: auto;
+      padding: 15px 18px 17px;
+      background: #f4f7f7;
+      border-top: 1px solid var(--line);
+    }
+
+    .human-loop h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+    }
+
+    .human-loop p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      background: rgba(255, 255, 255, .82);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 15px;
+      min-height: 104px;
+      backdrop-filter: blur(8px);
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .metric p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .command-center {
+      display: grid;
+      grid-template-columns: minmax(520px, 1.25fr) minmax(390px, .95fr);
+      gap: 16px;
+      min-height: 590px;
+    }
+
+    .agent-map,
+    .agent-detail {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .panel-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      padding: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-title span,
+    .agent-detail .kicker {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .map-visual {
+      position: relative;
+      min-height: 520px;
+      padding: 28px;
+    }
+
+    .core {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-weight: 800;
+      font-size: 18px;
+      line-height: 1.08;
+      z-index: 2;
+      box-shadow: 0 14px 35px rgba(24, 33, 47, .24);
+    }
+
+    .ring {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      width: 390px;
+      height: 390px;
+      border-radius: 50%;
+      border: 1px dashed #b9c3d0;
+    }
+
+    .agent-button {
+      position: absolute;
+      width: 172px;
+      min-height: 104px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 14px;
+      text-align: left;
+      box-shadow: 0 10px 24px rgba(24, 33, 47, .08);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .agent-button:hover,
+    .agent-button.active {
+      transform: translateY(-3px);
+      border-color: currentColor;
+      box-shadow: 0 16px 32px rgba(24, 33, 47, .13);
+    }
+
+    .agent-button strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .agent-button span {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: .35; transform: scale(.88); }
+      50% { opacity: 1; transform: scale(1.12); }
+    }
+
+    .agent-button[data-agent="qualification"] { top: 24px; left: 50%; transform: translateX(-50%); color: var(--teal); }
+    .agent-button[data-agent="marketplace"] { top: 150px; right: 34px; color: var(--coral); }
+    .agent-button[data-agent="cosell"] { bottom: 36px; right: 92px; color: var(--blue); }
+    .agent-button[data-agent="messaging"] { bottom: 36px; left: 92px; color: var(--gold); }
+    .agent-button[data-agent="attribution"] { top: 150px; left: 34px; color: var(--green); }
+
+    .agent-button[data-agent="qualification"]:hover,
+    .agent-button[data-agent="qualification"].active { transform: translateX(-50%) translateY(-3px); }
+
+    .agent-detail {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .detail-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .detail-header h2 {
+      margin-top: 5px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: var(--soft-green);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .detail-body {
+      padding: 18px 20px 20px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .output-box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 15px;
+      background: #fbfcfd;
+    }
+
+    .output-box h3 {
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: #344054;
+      text-transform: uppercase;
+    }
+
+    .output-box p {
+      margin: 0;
+      color: #475467;
+      font-size: 14px;
+      line-height: 1.52;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .action-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 9px;
+    }
+
+    .action-list li {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 9px;
+      align-items: start;
+      color: #344054;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--teal);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .brief-output {
+      margin-top: 22px;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 18px 45px rgba(24, 33, 47, .20);
+    }
+
+    .brief-output header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.16);
+    }
+
+    .brief-output h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .brief-output header p {
+      margin: 5px 0 0;
+      max-width: 760px;
+      color: rgba(255,255,255,.70);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .brief-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,.16);
+    }
+
+    .brief-cell {
+      background: var(--ink);
+      padding: 18px 20px;
+      min-height: 118px;
+    }
+
+    .brief-cell span {
+      display: block;
+      color: rgba(255,255,255,.62);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+
+    .brief-cell strong {
+      display: block;
+      font-size: 24px;
+      color: #fff;
+    }
+
+    .brief-cell p {
+      margin: 0;
+      color: rgba(255,255,255,.78);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .brief-cell ul {
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,.78);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .progress {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      padding: 16px 20px 20px;
+      background: var(--ink);
+    }
+
+    .step {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      overflow: hidden;
+    }
+
+    .step::before {
+      content: "";
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: var(--coral);
+      transform-origin: left;
+      animation: fill 1.2s ease both;
+    }
+
+    .step:nth-child(2)::before { animation-delay: .16s; background: var(--gold); }
+    .step:nth-child(3)::before { animation-delay: .32s; background: var(--teal); }
+    .step:nth-child(4)::before { animation-delay: .48s; background: var(--blue); }
+    .step:nth-child(5)::before { animation-delay: .64s; background: var(--green); }
+
+    @keyframes fill {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    @media (max-width: 1280px) {
+      .hero {
+        grid-template-columns: minmax(240px, .45fr) minmax(0, 1.8fr);
+      }
+
+      .command-center {
+        grid-template-columns: 1fr;
+      }
+
+      .map-visual {
+        min-height: 500px;
+      }
+
+      .agent-button[data-agent="marketplace"] { right: 82px; }
+      .agent-button[data-agent="cosell"] { right: 140px; }
+      .agent-button[data-agent="messaging"] { left: 140px; }
+      .agent-button[data-agent="attribution"] { left: 82px; }
+    }
+
+    @media (max-width: 1100px) {
+      .command-center {
+        grid-template-columns: 1fr;
+      }
+
+      .briefing {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        padding: 16px;
+      }
+
+      .topbar,
+      .client-row,
+      .detail-header,
+      .brief-output header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .status-strip {
+        justify-content: flex-start;
+      }
+
+      h1 {
+        max-width: 11ch;
+        font-size: 36px;
+      }
+
+      .metrics,
+      .brief-grid,
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .map-visual {
+        min-height: 560px;
+      }
+
+      .ring,
+      .core {
+        display: none;
+      }
+
+      .agent-button,
+      .agent-button[data-agent="qualification"],
+      .agent-button[data-agent="marketplace"],
+      .agent-button[data-agent="cosell"],
+      .agent-button[data-agent="messaging"],
+      .agent-button[data-agent="attribution"] {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        transform: none;
+        margin-bottom: 10px;
+      }
+
+      .agent-button[data-agent="qualification"]:hover,
+      .agent-button[data-agent="qualification"].active,
+      .agent-button:hover,
+      .agent-button.active {
+        transform: translateY(-2px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar" aria-label="Demo header">
+      <div class="brand">
+        <div class="brand-mark">SN</div>
+        <div class="brand-copy">
+          <strong>SaaSNova Horizon 2</strong>
+          <span>Agent Team for GTM Execution</span>
+        </div>
+      </div>
+      <div class="status-strip">
+        <span class="status-dot"></span>
+        <span>Demo client loaded: CloudOpsIQ</span>
+        <span>|</span>
+        <span>Agent-led, human-supervised workflow</span>
+      </div>
+    </header>
+
+    <section class="hero" aria-label="Agent team demo">
+      <aside class="briefing">
+        <div class="briefing-header">
+          <p class="eyebrow">Interactive Demo</p>
+          <h1>GTM workflow orchestration</h1>
+          <p class="lead">A new SaaS company enters the system. Each agent checks a specific GTM workstream, asks for human approval on judgment-heavy decisions, then deploys the approved next steps into client delivery.</p>
+        </div>
+
+        <div class="client-card">
+          <div class="client-row">
+            <div>
+              <h2>CloudOpsIQ</h2>
+              <p>B2B SaaS platform for enterprise cloud cost governance and operational reporting.</p>
+            </div>
+            <div class="score">
+              <strong>62%</strong>
+              <span>Ready</span>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag">AWS Marketplace draft</span>
+            <span class="tag">Co-sell eligible</span>
+            <span class="tag">HubSpot active</span>
+            <span class="tag">Private offers unclear</span>
+          </div>
+        </div>
+
+        <div class="inputs">
+          <div class="input-line">
+            <b>1</b>
+            <span>Client wants AWS Marketplace and co-sell growth, but the listing, landing page, MDF motion, and attribution model are not ready to scale.</span>
+          </div>
+          <div class="input-line">
+            <b>2</b>
+            <span>Marketplace listing is product-heavy, landing page is generic, and seller-facing language is missing AWS keywords.</span>
+          </div>
+          <div class="input-line">
+            <b>3</b>
+            <span>Pipeline has three likely co-sell opportunities, no MDF application package, and weak revenue tracking against target.</span>
+          </div>
+        </div>
+
+        <div class="human-loop">
+          <h3>Human role</h3>
+            <p>SaaSNova approves strategy, message quality, customer-sensitive actions, MDF submissions, and CRM changes. Approved actions become reusable playbook data.</p>
+        </div>
+      </aside>
+
+      <section class="workspace">
+        <div class="command-center">
+          <div class="agent-map">
+            <div class="panel-title">
+              <h2>Agent Team</h2>
+              <span>Click an agent</span>
+            </div>
+            <div class="map-visual">
+              <div class="ring" aria-hidden="true"></div>
+              <div class="core">Human<br>Approval<br>Queue</div>
+              <button class="agent-button active" type="button" data-agent="qualification">
+                <strong>Qualification Agent</strong>
+                <span><i class="pulse"></i> Scores listing readiness</span>
+              </button>
+              <button class="agent-button" type="button" data-agent="marketplace">
+                <strong>Marketplace Readiness Agent</strong>
+                <span><i class="pulse"></i> Builds landing page plan</span>
+              </button>
+              <button class="agent-button" type="button" data-agent="cosell">
+                <strong>Co-Sell Agent</strong>
+                <span><i class="pulse"></i> Applies for MDF</span>
+              </button>
+              <button class="agent-button" type="button" data-agent="messaging">
+                <strong>Messaging Agent</strong>
+                <span><i class="pulse"></i> Tunes AWS language</span>
+              </button>
+              <button class="agent-button" type="button" data-agent="attribution">
+                <strong>Revenue Attribution Agent</strong>
+                <span><i class="pulse"></i> Improves target path</span>
+              </button>
+            </div>
+          </div>
+
+          <article class="agent-detail" aria-live="polite">
+            <div class="detail-header">
+              <div>
+                <span class="kicker" id="agent-kicker">Agent Output</span>
+                <h2 id="agent-title">Qualification Agent</h2>
+              </div>
+              <span class="status-badge">Ready for review</span>
+            </div>
+            <div class="detail-body">
+              <div class="mini-grid">
+                <div class="output-box">
+                  <h3>Checks</h3>
+                  <p id="agent-checks">Reviews AWS Marketplace listing readiness: buyer problem, category fit, AWS alignment, offer structure, proof points, private offer path, and seller usefulness.</p>
+                </div>
+                <div class="output-box">
+                  <h3>Finding</h3>
+                  <p id="agent-finding">CloudOpsIQ scores 62% ready. The listing has a clear product, but weak buyer outcomes, no procurement path, and limited AWS seller relevance.</p>
+                </div>
+              </div>
+              <div class="mini-grid">
+                <div class="output-box">
+                  <h3>Human Approval</h3>
+                  <p id="agent-approval">Approve the readiness score, priority gaps, and whether the client should enter SuperNova readiness before co-sell acceleration.</p>
+                </div>
+                <div class="output-box">
+                  <h3>Deploys After Approval</h3>
+                  <p id="agent-deploys">Creates the marketplace readiness backlog and routes owners for listing copy, private offer workflow, proof assets, and storefront updates.</p>
+                </div>
+              </div>
+              <div class="output-box">
+                <h3>Next Steps Created</h3>
+                <ul class="action-list" id="agent-actions">
+                  <li><span class="check">✓</span><span>Score listing readiness across buyer value, AWS alignment, offer path, and proof.</span></li>
+                  <li><span class="check">✓</span><span>Flag missing private offer, CPPO, and seller enablement details.</span></li>
+                  <li><span class="check">✓</span><span>Recommend SuperNova readiness track before co-sell scale-up.</span></li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="metrics" aria-label="Workflow metrics">
+          <div class="metric">
+            <span>Recommended Path</span>
+            <strong>SuperNova</strong>
+            <p>Best fit for readiness plus execution.</p>
+          </div>
+          <div class="metric">
+            <span>Readiness</span>
+            <strong>62%</strong>
+            <p>Listing and landing page need work.</p>
+          </div>
+          <div class="metric">
+            <span>Pipeline Risk</span>
+            <strong>3 opps</strong>
+            <p>Needs MDF package and pipe hygiene.</p>
+          </div>
+          <div class="metric">
+            <span>Attribution</span>
+            <strong>High</strong>
+            <p>Current path misses revenue target.</p>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="brief-output" aria-label="Human approval and GTM improvement queue">
+      <header>
+        <div>
+          <h2>Human Approval Queue: What We Are Trying To Improve</h2>
+          <p>This is the control layer that turns agent findings into approved execution. It shows which parts of the GTM engine are weak today, what improvement target each agent owns, and what actions can be deployed after SaaSNova approves them.</p>
+        </div>
+        <span class="status-badge">Human approval needed</span>
+      </header>
+      <div class="brief-grid">
+        <div class="brief-cell">
+          <span>Improve Marketplace Conversion</span>
+          <p>Raise readiness from 62% to 80% by fixing listing clarity, landing page relevance, private offer path, CPPO story, and proof assets.</p>
+        </div>
+        <div class="brief-cell">
+          <span>Improve Co-Sell Execution</span>
+          <p>Turn three loose opportunities into seller-ready pipe with ACE hygiene, MDF application package, owner follow-ups, and stage progression.</p>
+        </div>
+        <div class="brief-cell">
+          <span>Improve Revenue Path</span>
+          <p>Close the gap to target by separating marketplace-sourced, co-sell-influenced, MDF-supported, and direct revenue in reporting.</p>
+        </div>
+        <div class="brief-cell">
+          <span>Approval Needed</span>
+          <ul>
+            <li>Approve readiness score and SuperNova route.</li>
+            <li>Approve landing page and listing changes.</li>
+            <li>Approve MDF submission and target accounts.</li>
+          </ul>
+        </div>
+        <div class="brief-cell">
+          <span>Agents Deploy</span>
+          <ul>
+            <li>Create workback plan and owners.</li>
+            <li>Draft assets and CRM updates.</li>
+            <li>Track pipe, MDF status, and revenue gap.</li>
+          </ul>
+        </div>
+        <div class="brief-cell">
+          <span>Human Supervises</span>
+          <ul>
+            <li>Review quality and customer nuance.</li>
+            <li>Handle exceptions and relationships.</li>
+            <li>Feed approved outputs back to training data.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="progress" aria-hidden="true">
+        <div class="step"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const agentData = {
+      qualification: {
+        title: "Qualification Agent",
+        checks: "Reviews AWS Marketplace listing readiness: buyer problem, category fit, AWS alignment, offer structure, proof points, private offer path, and seller usefulness.",
+        finding: "CloudOpsIQ scores 62% ready. The listing has a clear product, but weak buyer outcomes, no procurement path, and limited AWS seller relevance.",
+        approval: "Approve the readiness score, priority gaps, and whether the client should enter SuperNova readiness before co-sell acceleration.",
+        deploys: "Creates the marketplace readiness backlog and routes owners for listing copy, private offer workflow, proof assets, and storefront updates.",
+        actions: [
+          "Score listing readiness across buyer value, AWS alignment, offer path, and proof.",
+          "Flag missing private offer, CPPO, and seller enablement details.",
+          "Recommend SuperNova readiness track before co-sell scale-up."
+        ]
+      },
+      marketplace: {
+        title: "Marketplace Readiness Agent",
+        checks: "Audits the marketplace listing, storefront, buyer landing page, private offer journey, CPPO readiness, proof assets, and conversion path from seller referral to buyer action.",
+        finding: "The listing explains features, but there is no dedicated landing page for AWS-referred buyers and the storefront does not guide buyers toward a private offer conversation.",
+        approval: "Approve the landing page structure, required proof points, and which missing assets should be created before seller outreach begins.",
+        deploys: "Drafts the landing page wireframe, recommends missing sections, creates the listing improvement backlog, and assigns copy, design, proof, and offer-flow tasks.",
+        actions: [
+          "Create a landing page outline: hero, AWS value, use cases, proof, offer CTA, and partner path.",
+          "Suggest missing assets: customer proof, architecture note, security language, pricing path, and private offer FAQ.",
+          "Update marketplace listing backlog with storefront, CPPO, and private offer improvements."
+        ]
+      },
+      cosell: {
+        title: "Co-Sell Agent",
+        checks: "Monitors ACE opportunities, HubSpot stages, owner follow-ups, AWS seller notes, MDF eligibility, campaign timing, and whether pipeline movement is tied to funded activity.",
+        finding: "Three opportunities appear co-sell eligible, but the pipe lacks seller-ready notes and there is no MDF application package connected to the campaign plan.",
+        approval: "Approve which opportunities and campaign motions should be included in the MDF request, plus the budget ask and expected pipeline impact.",
+        deploys: "Prepares MDF application inputs, updates opportunity hygiene, creates seller summaries, and tracks stage movement, next steps, and stalled records.",
+        actions: [
+          "Build MDF application package with campaign goal, target accounts, budget ask, and expected pipeline.",
+          "Update three opportunities with AWS value, customer problem, next step, and owner.",
+          "Track pipeline stage movement and flag stalled deals for human intervention."
+        ]
+      },
+      messaging: {
+        title: "Messaging Agent",
+        checks: "Reviews marketplace copy, landing page copy, seller pitch, opportunity notes, email language, AWS alignment, customer outcomes, and keyword coverage.",
+        finding: "Current language is product-centric. It underuses AWS-relevant terms such as cloud cost optimization, governance, modernization, security, procurement, and AWS Marketplace.",
+        approval: "Approve the Better Together narrative, sensitive customer claims, keywords to emphasize, and language that AWS sellers can safely reuse.",
+        deploys: "Creates approved keyword blocks, marketplace copy, landing page sections, seller pitch language, email snippets, and ACE note language.",
+        actions: [
+          "Suggest language around cloud cost optimization, governance, modernization, security, procurement, and faster buying through AWS Marketplace.",
+          "Draft Better Together story: CloudOpsIQ plus AWS helps enterprises improve cloud spend visibility and operational control.",
+          "Create reusable keyword bank for listing, landing page, seller notes, and outreach."
+        ]
+      },
+      attribution: {
+        title: "Revenue Attribution Agent",
+        checks: "Compares target revenue to current pipe, marketplace source fields, co-sell influence, MDF-supported campaigns, PRM tagging, close dates, stage probability, and reporting completeness.",
+        finding: "The current pipeline is unlikely to hit target because influenced revenue is blended with direct revenue, MDF impact is not tracked, and several opportunities lack source and partner tags.",
+        approval: "Approve the target-gap assumptions, attribution definitions, and which CRM fields can be updated automatically versus reviewed by a human.",
+        deploys: "Creates a revenue-gap view, adds missing attribution tasks, tracks source quality, and recommends where to improve pipe creation, conversion, or deal progression.",
+        actions: [
+          "Separate marketplace-sourced, co-sell-influenced, MDF-supported, CPPO, partner, and direct revenue.",
+          "Identify target gap by source, stage, close date, probability, and owner.",
+          "Recommend improvements: more qualified pipe, faster stage progression, cleaner attribution, and weekly gap reporting."
+        ]
+      }
+    };
+
+    const buttons = document.querySelectorAll(".agent-button");
+    const title = document.getElementById("agent-title");
+    const checks = document.getElementById("agent-checks");
+    const finding = document.getElementById("agent-finding");
+    const approval = document.getElementById("agent-approval");
+    const deploys = document.getElementById("agent-deploys");
+    const actions = document.getElementById("agent-actions");
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const key = button.dataset.agent;
+        const data = agentData[key];
+        buttons.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        title.textContent = data.title;
+        checks.textContent = data.checks;
+        finding.textContent = data.finding;
+        approval.textContent = data.approval;
+        deploys.textContent = data.deploys;
+        actions.innerHTML = data.actions.map((action) => `<li><span class="check">✓</span><span>${action}</span></li>`).join("");
+      });
+    });
+  </script>
+</body>
+</html>
