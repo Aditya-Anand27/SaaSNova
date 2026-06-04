@@ -143,6 +143,34 @@
       letter-spacing: 0;
     }
 
+    /* ── Our Story section ── */
+    .story-body {
+      max-width: 720px;
+      margin-top: 40px;
+    }
+
+    .story-body p {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0 0 20px;
+    }
+
+    .story-body p strong {
+      color: var(--ink);
+    }
+
+    .story-placeholder {
+      margin-top: 48px;
+      padding: 36px;
+      background: var(--panel);
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
     /* ── Demo grid ── */
     .grid {
       display: grid;
@@ -305,7 +333,10 @@
       <strong>SaaSNova Horizon</strong>
     </div>
     <div class="nav-tabs">
-      <button class="nav-tab active" data-target="prototype">
+      <button class="nav-tab active" data-target="our-story">
+        <span class="tab-icon">✦</span> Our Story
+      </button>
+      <button class="nav-tab" data-target="prototype">
         <span class="tab-icon">⬡</span> Prototype
       </button>
       <button class="nav-tab" data-target="media">
@@ -316,8 +347,28 @@
 
   <main>
 
+    <!-- Our Story section -->
+    <div id="our-story" class="section active">
+      <div class="section-header">
+        <div class="brand-meta">
+          <strong>Our Story</strong>
+          <span>How SaaSNova came to be</span>
+        </div>
+      </div>
+
+      <div class="story-body">
+        <p><strong>SaaSNova was built for one reason:</strong> GTM teams at ISVs are drowning in manual work that shouldn't be manual.</p>
+        <p>From chasing co-sell opportunities in spreadsheets to copy-pasting marketplace listings and guessing at attribution — the operational overhead is enormous, and it compounds with every new partner, channel, and campaign.</p>
+        <p>We believe the next wave of GTM isn't just AI-assisted — it's <strong>agentic</strong>. A coordinated team of agents that handles the operational layer end-to-end, so your human team can focus on relationships, strategy, and growth.</p>
+
+        <div class="story-placeholder">
+          ✦ &nbsp; More content coming soon — add your full story here.
+        </div>
+      </div>
+    </div>
+
     <!-- Prototype section -->
-    <div id="prototype" class="section active">
+    <div id="prototype" class="section">
       <div class="section-header">
         <div class="brand-meta">
           <strong>SaaSNova Horizon</strong>
