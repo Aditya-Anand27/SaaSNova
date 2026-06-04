@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Horizon 1: Human-Led, AI-Assisted</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #667085;
+      --line: #d9e2ef;
+      --paper: #f7f9fc;
+      --panel: #ffffff;
+      --navy: #111c2f;
+      --teal: #15b8a6;
+      --blue: #4f7cff;
+      --amber: #f5a524;
+      --red: #ef5f73;
+      --green: #22b884;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(21, 184, 166, 0.18), transparent 28%),
+        radial-gradient(circle at 94% 5%, rgba(79, 124, 255, 0.14), transparent 30%),
+        var(--paper);
+      color: var(--ink);
+    }
+
+    .slide {
+      width: min(1440px, 100vw);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 34px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 22px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .badge {
+      width: 58px;
+      height: 58px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      box-shadow: 0 18px 38px rgba(21, 184, 166, 0.24);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .phrase {
+      background: var(--navy);
+      color: white;
+      border-radius: 10px;
+      padding: 16px 18px;
+      min-width: 330px;
+      box-shadow: 0 18px 44px rgba(17, 28, 47, 0.18);
+    }
+
+    .phrase span {
+      display: block;
+      color: #91f3e8;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .phrase b {
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 22px;
+      min-height: 0;
+    }
+
+    .narrative,
+    .mock {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 22px 60px rgba(17, 24, 39, 0.09);
+      overflow: hidden;
+    }
+
+    .narrative {
+      display: grid;
+      grid-template-rows: auto auto auto;
+      align-content: start;
+    }
+
+    .block {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .block:last-child { border-bottom: 0; }
+
+    .eyebrow {
+      color: var(--teal);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-weight: 900;
+      margin-bottom: 9px;
+    }
+
+    .block h2 {
+      font-size: 23px;
+      letter-spacing: 0;
+      margin-bottom: 9px;
+    }
+
+    .block p,
+    .quote,
+    .small {
+      color: var(--muted);
+      line-height: 1.48;
+      font-size: 14px;
+    }
+
+    .quote {
+      border-left: 4px solid var(--teal);
+      padding-left: 14px;
+      margin-top: 10px;
+      color: #344054;
+    }
+
+    .roles {
+      display: grid;
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .role {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 11px;
+      border: 1px solid #e5ebf5;
+      background: #fbfcff;
+      border-radius: 9px;
+    }
+
+    .icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      background: var(--blue);
+    }
+
+    .role:nth-child(2) .icon { background: var(--teal); }
+    .role:nth-child(3) .icon { background: var(--amber); }
+
+    .role b {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 14px;
+    }
+
+    .mock {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      background: #eef3f9;
+    }
+
+    .mock-top {
+      padding: 16px 18px;
+      background: var(--navy);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mock-top b {
+      font-size: 16px;
+    }
+
+    .status {
+      color: #baf8ee;
+      border: 1px solid rgba(186, 248, 238, 0.32);
+      background: rgba(186, 248, 238, 0.08);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .workspace {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 14px;
+    }
+
+    .internal-workspace {
+      padding-bottom: 0;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-head b { font-size: 14px; }
+
+    .mini-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: #335a75;
+      background: #edf7ff;
+      border: 1px solid #d5eaff;
+      border-radius: 999px;
+      padding: 5px 8px;
+      white-space: nowrap;
+    }
+
+    .table {
+      display: grid;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 84px 1fr 88px;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid #edf1f6;
+      font-size: 12px;
+      border-left: 4px solid transparent;
+    }
+
+    .row.header {
+      color: var(--muted);
+      font-weight: 800;
+      background: #f8fafc;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 10px;
+      border-left: 0;
+    }
+
+    .row:last-child { border-bottom: 0; }
+
+    .row[data-client] {
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .row[data-client]:hover,
+    .row[data-client].active {
+      background: #f4fbff;
+      border-left-color: var(--teal);
+    }
+
+    .client b {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+
+    .score {
+      height: 9px;
+      border-radius: 999px;
+      background: #e8edf5;
+      overflow: hidden;
+    }
+
+    .score i {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+    }
+
+    .owner {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #344054;
+      font-weight: 800;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 4px rgba(34, 184, 132, 0.12);
+    }
+
+    .dot.amber {
+      background: var(--amber);
+      box-shadow: 0 0 0 4px rgba(245, 165, 36, 0.13);
+    }
+
+    .dot.red {
+      background: var(--red);
+      box-shadow: 0 0 0 4px rgba(239, 95, 115, 0.12);
+    }
+
+    .side-stack {
+      display: grid;
+      grid-template-rows: auto auto auto;
+      gap: 14px;
+    }
+
+    .agent-card {
+      padding: 14px;
+      border-bottom: 1px solid #edf1f6;
+    }
+
+    .agent-card:last-child { border-bottom: 0; }
+
+    .agent-card.ai {
+      border-left: 4px solid var(--teal);
+      background: #f0fffb;
+    }
+
+    .agent-card.slack {
+      border-left: 4px solid var(--blue);
+      background: #f3f6ff;
+    }
+
+    .agent-card b {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .question {
+      padding: 9px 10px;
+      border-radius: 8px;
+      background: #f5f7fb;
+      border: 1px solid #e5ebf5;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #344054;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 12px 14px 14px;
+    }
+
+    button {
+      border: 1px solid #d7e1ee;
+      background: #ffffff;
+      color: #24364d;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    button:hover,
+    button.active {
+      border-color: var(--teal);
+      background: #ecfffb;
+      color: #057463;
+    }
+
+    button.primary {
+      border-color: var(--navy);
+      background: var(--navy);
+      color: white;
+    }
+
+    .toast {
+      display: none;
+      margin: 0 14px 14px;
+      padding: 10px 11px;
+      border-radius: 8px;
+      border: 1px solid rgba(34, 184, 132, 0.28);
+      background: rgba(34, 184, 132, 0.1);
+      color: #08745a;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .toast.show { display: block; }
+
+    .client-view {
+      margin: 16px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 14px 34px rgba(17, 24, 39, 0.07);
+    }
+
+    .client-view-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    .client-view-grid div {
+      padding: 13px 14px;
+      border-right: 1px solid #edf1f6;
+    }
+
+    .client-view-grid div:last-child { border-right: 0; }
+
+    .client-view-grid b {
+      display: block;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .client-summary {
+      padding: 13px 14px;
+      border-top: 1px solid #edf1f6;
+      background: #fbfcff;
+    }
+
+    .client-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-top: 1px solid #edf1f6;
+    }
+
+    .kpi-card {
+      padding: 13px 14px;
+      border-right: 1px solid #edf1f6;
+    }
+
+    .kpi-card:last-child {
+      border-right: 0;
+    }
+
+    .kpi-card b {
+      display: block;
+      font-size: 14px;
+      margin: 5px 0 7px;
+    }
+
+    .mini-progress {
+      height: 8px;
+      border-radius: 999px;
+      background: #e8edf5;
+      overflow: hidden;
+    }
+
+    .mini-progress i {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+    }
+
+    footer {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .footer-card {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .footer-card b {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 1050px) {
+      header,
+      .main,
+      .workspace,
+      footer {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .phrase { min-width: 0; }
+      .row { grid-template-columns: 1fr; }
+      .row.header { display: none; }
+      .client-view-grid { grid-template-columns: 1fr; }
+      .client-view-grid div { border-right: 0; border-bottom: 1px solid #edf1f6; }
+      .client-kpis { grid-template-columns: 1fr; }
+      .kpi-card { border-right: 0; border-bottom: 1px solid #edf1f6; }
+    }
+  </style>
+</head>
+<body>
+  <section class="slide">
+    <header>
+      <div class="title-wrap">
+        <div class="badge">H1</div>
+        <div>
+          <h1>Horizon 1: Human-Led, AI-Assisted</h1>
+          <p class="subtitle">Reduce manual work and improve visibility without changing SaaSNova's business model.</p>
+        </div>
+      </div>
+      <div class="phrase">
+        <span>Horizon 1 principle</span>
+        <b>Capture today's GTM work so tomorrow's AI can scale it.</b>
+      </div>
+    </header>
+
+    <main class="main">
+      <aside class="narrative">
+        <div class="block">
+          <div class="eyebrow">Goal</div>
+          <h2>Make Jen's operating work visible.</h2>
+          <p>Horizon 1 gives the team a shared view of customer status, readiness, blockers, next actions, and ownership while keeping humans in control.</p>
+        </div>
+
+        <div class="block">
+          <div class="eyebrow">Why this matters</div>
+          <h2>It attacks the current bottleneck.</h2>
+          <p>Manual GTM execution tasks are valuable but time-consuming. SaaSNova can scale more confidently when repeatable work is captured, tracked, and assisted by AI.</p>
+          <p class="quote">Jen described the current phase as human-led: hiring operators and partner managers while documenting workflows and turning those workflows into training data for the agent.</p>
+        </div>
+
+        <div class="block">
+          <div class="eyebrow">Horizon 1 Deliverables</div>
+          <div class="roles">
+            <div class="role">
+              <div class="icon">D</div>
+              <div><b>Dashboard prototype</b><span class="small">Customer status, readiness score, next action, blockers, internal owner, and client-facing view.</span></div>
+            </div>
+            <div class="role">
+              <div class="icon">E</div>
+              <div><b>Claude Co-work / email agent</b><span class="small">Monitors emails, summarises action items, suggests HubSpot updates, and drafts follow-ups.</span></div>
+            </div>
+            <div class="role">
+              <div class="icon">S</div>
+              <div><b>Slackbot / Constellation assistant</b><span class="small">Answers internal status, readiness, blocker, and QBR preparation questions.</span></div>
+            </div>
+            <div class="role">
+              <div class="icon">I</div>
+              <div><b>Data ingestion</b><span class="small">Collects signals from dashboards, emails, calls, Slack, WhatsApp, and HubSpot so customer behaviour can train the future AI GTM intelligence layer.</span></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="mock">
+        <div class="mock-top">
+          <div>
+            <b>SaaSNova Client Command Center</b>
+            <div class="small" style="color:#b7c4d7">Prototype view for Jen and internal operators</div>
+          </div>
+          <div class="status">Humans approve. AI assists.</div>
+        </div>
+
+        <div class="workspace internal-workspace">
+          <section class="panel">
+            <div class="panel-head">
+              <b>Dashboard Prototype</b>
+              <span class="mini-tag">HubSpot + email + Slack</span>
+            </div>
+            <div class="table">
+              <div class="row header">
+                <div>Customer</div><div>Readiness</div><div>Next action / blocker</div><div>Owner</div>
+              </div>
+              <div class="row active" data-client="a">
+                <div class="client"><b>CypherShield</b><span class="small">Cybersecurity SaaS | AWS marketplace motion</span></div>
+                <div><div class="score"><i style="width:88%"></i></div><span class="small">88%</span></div>
+                <div><b>Board evidence ready</b><span class="small">Approve client update</span></div>
+                <div class="owner"><span class="dot"></span>Jen</div>
+              </div>
+              <div class="row" data-client="b">
+                <div class="client"><b>MedLedger AI</b><span class="small">Healthtech SaaS | Azure field engagement</span></div>
+                <div><div class="score"><i style="width:63%"></i></div><span class="small">63%</span></div>
+                <div><b>PDM follow-up stuck</b><span class="small">Needs partner manager nudge</span></div>
+                <div class="owner"><span class="dot amber"></span>PM</div>
+              </div>
+              <div class="row" data-client="c">
+                <div class="client"><b>TrialNova</b><span class="small">Pharma trials SaaS | GCP co-sell readiness</span></div>
+                <div><div class="score"><i style="width:42%"></i></div><span class="small">42%</span></div>
+                <div><b>Commercial approval missing</b><span class="small">Escalate before QBR</span></div>
+                <div class="owner"><span class="dot red"></span>Ops</div>
+              </div>
+              <div class="row" data-client="d">
+                <div class="client"><b>FinSightOps</b><span class="small">FinOps SaaS | AWS co-sell validation</span></div>
+                <div><div class="score"><i style="width:76%"></i></div><span class="small">76%</span></div>
+                <div><b>Marketplace listing review</b><span class="small">Confirm private offer path</span></div>
+                <div class="owner"><span class="dot"></span>Ops</div>
+              </div>
+              <div class="row" data-client="e">
+                <div class="client"><b>LabSync Cloud</b><span class="small">Biotech SaaS | Azure marketplace readiness</span></div>
+                <div><div class="score"><i style="width:55%"></i></div><span class="small">55%</span></div>
+                <div><b>Security questionnaire open</b><span class="small">Collect compliance evidence</span></div>
+                <div class="owner"><span class="dot amber"></span>PM</div>
+              </div>
+              <div class="row" data-client="f">
+                <div class="client"><b>SecurePulse</b><span class="small">Cyber risk SaaS | GCP marketplace launch</span></div>
+                <div><div class="score"><i style="width:91%"></i></div><span class="small">91%</span></div>
+                <div><b>Launch note ready</b><span class="small">Send client-facing milestone</span></div>
+                <div class="owner"><span class="dot"></span>Jen</div>
+              </div>
+            </div>
+          </section>
+
+          <div class="side-stack">
+            <section class="panel">
+              <div class="panel-head">
+                <b>Claude Co-work / Email Agent</b>
+                <span class="mini-tag">Draft mode</span>
+              </div>
+              <div class="agent-card ai">
+                <b>New email summary</b>
+                <span class="small" id="email-summary">Client A asks whether the AWS evidence pack is ready. Agent finds the board update is complete.</span>
+              </div>
+              <div class="agent-card">
+                <b>Suggested HubSpot update</b>
+                <span class="small" id="hubspot-update">Move stage to "evidence ready"; assign Jen review; due today.</span>
+              </div>
+              <div class="agent-card ai">
+                <b>Draft follow-up</b>
+                <span class="small" id="draft-followup">Prepared client update summarising AWS progress and next QBR evidence.</span>
+              </div>
+              <div class="button-row">
+                <button class="primary" id="approve-email">Approve draft</button>
+                <button id="edit-email">Edit first</button>
+              </div>
+              <div class="toast" id="email-toast">Approved: HubSpot updated and follow-up queued.</div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <b>Slackbot / Internal Assistant</b>
+                <span class="mini-tag">Ask status</span>
+              </div>
+              <div class="agent-card slack">
+                <b>Team question</b>
+                <div class="question" id="slack-question">What is the status of Client A?</div>
+                <div class="button-row" style="padding:10px 0 0">
+                  <button class="active" data-question="status">Status</button>
+                  <button data-question="stuck">Stuck clients</button>
+                  <button data-question="qbr">QBR actions</button>
+                </div>
+              </div>
+              <div class="agent-card">
+                <b>Assistant answer</b>
+                <span class="small" id="slack-answer">Client A is on track. Readiness is 88%. Next action: Jen approves the client-facing update.</span>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <b>Data Ingestion</b>
+                <span class="mini-tag">Training signals</span>
+              </div>
+              <div class="agent-card">
+                <b>Signals captured</b>
+                <span class="small">Dashboard activity, customer emails, call notes, Slack questions, WhatsApp updates, and HubSpot stage changes.</span>
+              </div>
+              <div class="agent-card ai">
+                <b>Why it matters</b>
+                <span class="small">Every workflow creates structured training data for the future AI GTM intelligence layer.</span>
+              </div>
+            </section>
+          </div>
+
+        </div>
+
+        <section class="client-view">
+          <div class="panel-head">
+            <b>Client Portal Dashboard</b>
+            <span class="mini-tag">Customer-facing KPI tracking</span>
+          </div>
+          <div class="client-view-grid">
+            <div><span class="small">Program readiness</span><b id="view-readiness">88%</b></div>
+            <div><span class="small">Current blocker</span><b id="view-blocker">None</b></div>
+            <div><span class="small">Next SaaSNova action</span><b id="view-action">Approve update</b></div>
+            <div><span class="small">Next client update</span><b id="view-update">Today</b></div>
+          </div>
+          <div class="client-summary">
+            <span class="small" id="view-summary">CypherShield is ready for a client-facing update. AI has drafted the message; Jen remains the approver.</span>
+          </div>
+          <div class="client-kpis">
+            <div class="kpi-card">
+              <span class="small">Marketplace readiness</span>
+              <b id="kpi-marketplace">Listing evidence complete</b>
+              <div class="mini-progress"><i id="bar-marketplace" style="width:88%"></i></div>
+            </div>
+            <div class="kpi-card">
+              <span class="small">Co-sell progress</span>
+              <b id="kpi-cosell">AWS evidence pack ready</b>
+              <div class="mini-progress"><i id="bar-cosell" style="width:82%"></i></div>
+            </div>
+            <div class="kpi-card">
+              <span class="small">QBR evidence</span>
+              <b id="kpi-qbr">Board update prepared</b>
+              <div class="mini-progress"><i id="bar-qbr" style="width:90%"></i></div>
+            </div>
+            <div class="kpi-card">
+              <span class="small">Program stage</span>
+              <b id="kpi-stage">Evidence ready</b>
+              <div class="mini-progress"><i id="bar-stage" style="width:78%"></i></div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-card"><b>Human role</b><span class="small">Humans approve, edit, and supervise. AI assists.</span></div>
+      <div class="footer-card"><b>Business impact</b><span class="small">Less manual chasing, more visibility, faster client response, better handoff to operators.</span></div>
+      <div class="footer-card"><b>Transformation logic</b><span class="small">Capture workflows now so Horizon 2 agents can learn from real operating patterns later.</span></div>
+    </footer>
+  </section>
+  <script>
+    const clients = {
+      a: {
+        name: "CypherShield",
+        readiness: "88%",
+        blocker: "None",
+        action: "Approve update",
+        update: "Today",
+        summary: "CypherShield is ready for a client-facing update. AI has drafted the message; Jen remains the approver.",
+        marketplace: "Listing evidence complete",
+        marketplaceBar: "88%",
+        cosell: "AWS evidence pack ready",
+        cosellBar: "82%",
+        qbrKpi: "Board update prepared",
+        qbrBar: "90%",
+        stage: "Evidence ready",
+        stageBar: "78%",
+        email: "CypherShield asks whether the AWS evidence pack is ready. Agent finds the board update is complete.",
+        hubspot: "Move stage to \"evidence ready\"; assign Jen review; due today.",
+        draft: "Prepared client update summarising AWS progress and next QBR evidence.",
+        status: "CypherShield is on track. Readiness is 88%. Next action: Jen approves the client-facing update.",
+        stuck: "MedLedger AI, TrialNova, and LabSync Cloud need attention. CypherShield has no open blocker.",
+        qbr: "Before the QBR: approve CypherShield's update, nudge MedLedger AI's PDM, and escalate TrialNova's approval."
+      },
+      b: {
+        name: "MedLedger AI",
+        readiness: "63%",
+        blocker: "PDM follow-up",
+        action: "Partner nudge",
+        update: "Before QBR",
+        summary: "MedLedger AI is waiting on Azure field engagement. The agent recommends a partner manager nudge and a HubSpot task.",
+        marketplace: "Offer path under review",
+        marketplaceBar: "63%",
+        cosell: "PDM follow-up pending",
+        cosellBar: "48%",
+        qbrKpi: "Progress note needed",
+        qbrBar: "58%",
+        stage: "Field engagement",
+        stageBar: "61%",
+        email: "MedLedger AI asks whether Azure follow-up happened. Agent finds no HubSpot task completion.",
+        hubspot: "Create task: \"PDM nudge required\"; assign to partner manager; due tomorrow.",
+        draft: "Prepared a polite client reply confirming the PDM follow-up is being chased.",
+        status: "MedLedger AI is at 63% readiness. Blocker: PDM follow-up. Next action: partner manager nudge.",
+        stuck: "MedLedger AI is stuck at Azure field engagement; TrialNova is stuck at commercial approval.",
+        qbr: "Before the QBR: confirm PDM follow-up, update HubSpot, and prepare a client-facing progress note."
+      },
+      c: {
+        name: "TrialNova",
+        readiness: "42%",
+        blocker: "Commercial approval",
+        action: "Escalate",
+        update: "24 hours",
+        summary: "TrialNova needs human escalation. AI can prepare the context, but an operator should handle the commercial approval path.",
+        marketplace: "Approval not complete",
+        marketplaceBar: "42%",
+        cosell: "Co-sell paused",
+        cosellBar: "35%",
+        qbrKpi: "Risk narrative required",
+        qbrBar: "40%",
+        stage: "Readiness blocker",
+        stageBar: "42%",
+        email: "TrialNova has not confirmed commercial approval. Agent identifies this as a QBR risk.",
+        hubspot: "Create escalation task; assign Ops owner; mark blocker as \"commercial approval missing\".",
+        draft: "Prepared internal escalation note with blocker, impact, and recommended owner.",
+        status: "TrialNova is stuck at marketplace readiness. Blocker: commercial approval. Next action: escalate before QBR.",
+        stuck: "TrialNova is the highest-risk stuck client because readiness is only 42%.",
+        qbr: "Before the QBR: secure commercial approval, update readiness, and prepare a blocker narrative."
+      },
+      d: {
+        name: "FinSightOps",
+        readiness: "76%",
+        blocker: "Listing review",
+        action: "Confirm offer path",
+        update: "Tomorrow",
+        summary: "FinSightOps is progressing through AWS co-sell validation. Private offer path needs confirmation.",
+        marketplace: "Listing review active",
+        marketplaceBar: "76%",
+        cosell: "AWS validation moving",
+        cosellBar: "70%",
+        qbrKpi: "Commercial milestone open",
+        qbrBar: "68%",
+        stage: "Offer path review",
+        stageBar: "72%",
+        email: "FinSightOps asks if the private offer route is confirmed. Agent finds marketplace listing review is still open.",
+        hubspot: "Update blocker to \"listing review\"; assign Ops; add private offer confirmation task.",
+        draft: "Prepared update explaining listing review status and next commercial step.",
+        status: "FinSightOps is at 76% readiness. Blocker: listing review. Next action: confirm private offer path.",
+        stuck: "FinSightOps is not blocked, but listing review is slowing the marketplace path.",
+        qbr: "Before the QBR: confirm private offer route and update the commercial milestone."
+      },
+      e: {
+        name: "LabSync Cloud",
+        readiness: "55%",
+        blocker: "Security evidence",
+        action: "Collect evidence",
+        update: "This week",
+        summary: "LabSync Cloud needs compliance evidence for Azure marketplace readiness. The agent recommends collecting security documents.",
+        marketplace: "Security evidence missing",
+        marketplaceBar: "55%",
+        cosell: "Azure path scoped",
+        cosellBar: "52%",
+        qbrKpi: "Evidence checklist open",
+        qbrBar: "46%",
+        stage: "Compliance collection",
+        stageBar: "55%",
+        email: "LabSync Cloud asks what is blocking marketplace progress. Agent identifies the open security questionnaire.",
+        hubspot: "Create evidence checklist; assign partner manager; link questionnaire to client record.",
+        draft: "Prepared client note listing missing security evidence and next collection step.",
+        status: "LabSync Cloud is at 55% readiness. Blocker: security questionnaire. Next action: collect compliance evidence.",
+        stuck: "LabSync Cloud is stuck on evidence collection, but the blocker is clear and actionable.",
+        qbr: "Before the QBR: complete security evidence checklist and update Azure readiness."
+      },
+      f: {
+        name: "SecurePulse",
+        readiness: "91%",
+        blocker: "None",
+        action: "Send milestone",
+        update: "Today",
+        summary: "SecurePulse is ready for a GCP marketplace launch note. AI has drafted a milestone update.",
+        marketplace: "Launch milestone ready",
+        marketplaceBar: "91%",
+        cosell: "GCP launch aligned",
+        cosellBar: "88%",
+        qbrKpi: "Launch evidence captured",
+        qbrBar: "86%",
+        stage: "Launch ready",
+        stageBar: "91%",
+        email: "SecurePulse asks if the launch note can go out today. Agent confirms launch milestone is ready.",
+        hubspot: "Move stage to \"launch ready\"; assign Jen approval; log milestone note.",
+        draft: "Prepared client-facing launch milestone note and next steps.",
+        status: "SecurePulse is at 91% readiness. No blocker. Next action: send launch milestone note.",
+        stuck: "SecurePulse is not stuck. It is ready for a proactive launch communication.",
+        qbr: "Before the QBR: send milestone note and capture launch evidence for the board pack."
+      }
+    };
+
+    let selectedClient = "a";
+    let selectedQuestion = "status";
+
+    const fields = {
+      readiness: document.getElementById("view-readiness"),
+      blocker: document.getElementById("view-blocker"),
+      action: document.getElementById("view-action"),
+      update: document.getElementById("view-update"),
+      summary: document.getElementById("view-summary"),
+      marketplace: document.getElementById("kpi-marketplace"),
+      marketplaceBar: document.getElementById("bar-marketplace"),
+      cosell: document.getElementById("kpi-cosell"),
+      cosellBar: document.getElementById("bar-cosell"),
+      qbrKpi: document.getElementById("kpi-qbr"),
+      qbrBar: document.getElementById("bar-qbr"),
+      stage: document.getElementById("kpi-stage"),
+      stageBar: document.getElementById("bar-stage"),
+      email: document.getElementById("email-summary"),
+      hubspot: document.getElementById("hubspot-update"),
+      draft: document.getElementById("draft-followup"),
+      question: document.getElementById("slack-question"),
+      answer: document.getElementById("slack-answer"),
+      toast: document.getElementById("email-toast")
+    };
+
+    function render() {
+      const client = clients[selectedClient];
+      fields.readiness.textContent = client.readiness;
+      fields.blocker.textContent = client.blocker;
+      fields.action.textContent = client.action;
+      fields.update.textContent = client.update;
+      fields.summary.textContent = client.summary;
+      fields.marketplace.textContent = client.marketplace;
+      fields.marketplaceBar.style.width = client.marketplaceBar;
+      fields.cosell.textContent = client.cosell;
+      fields.cosellBar.style.width = client.cosellBar;
+      fields.qbrKpi.textContent = client.qbrKpi;
+      fields.qbrBar.style.width = client.qbrBar;
+      fields.stage.textContent = client.stage;
+      fields.stageBar.style.width = client.stageBar;
+      fields.email.textContent = client.email;
+      fields.hubspot.textContent = client.hubspot;
+      fields.draft.textContent = client.draft;
+
+      const label = selectedQuestion === "status"
+        ? `What is the status of ${client.name}?`
+        : selectedQuestion === "stuck"
+          ? "Which clients are stuck at marketplace readiness?"
+          : "What are the next actions before the QBR?";
+      fields.question.textContent = label;
+      fields.answer.textContent = client[selectedQuestion];
+      fields.toast.classList.remove("show");
+    }
+
+    document.querySelectorAll(".row[data-client]").forEach((row) => {
+      row.addEventListener("click", () => {
+        selectedClient = row.dataset.client;
+        document.querySelectorAll(".row[data-client]").forEach((item) => item.classList.remove("active"));
+        row.classList.add("active");
+        render();
+      });
+    });
+
+    document.querySelectorAll("[data-question]").forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedQuestion = button.dataset.question;
+        document.querySelectorAll("[data-question]").forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        render();
+      });
+    });
+
+    document.getElementById("approve-email").addEventListener("click", () => {
+      fields.toast.textContent = `Approved: ${clients[selectedClient].name} follow-up queued and HubSpot update suggested.`;
+      fields.toast.classList.add("show");
+    });
+
+    document.getElementById("edit-email").addEventListener("click", () => {
+      fields.toast.textContent = `Edit mode: Jen reviews the ${clients[selectedClient].name} draft before anything is sent.`;
+      fields.toast.classList.add("show");
+    });
+  </script>
+</body>
+</html>
