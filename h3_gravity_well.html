@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H3 — The Gravity of the Platform</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.7.0/tabler-icons.min.css">
+<style>
+  :root{
+    --ink:#15161D;--muted:#5A5C68;--faint:#8A8C98;--line:#E8E8EE;--paper:#FFFFFF;--bg:#EDEDF2;
+    --h1:#1E9BE0;--h2:#E5197B;--h3:#F0992E;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding:30px 22px;display:flex;justify-content:center}
+  .slide{width:1060px;max-width:100%;background:var(--paper);border-radius:14px;box-shadow:0 14px 44px rgba(20,20,40,.16);overflow:hidden}
+  .top{height:9px;background:linear-gradient(90deg,var(--h1),var(--h2),var(--h3))}
+  .pad{padding:28px 38px 30px}
+  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--h3);font-weight:700;margin:0 0 6px}
+  h1{font-family:Georgia,serif;font-size:27px;font-weight:700;color:var(--ink);margin:0 0 5px}
+  .sub{font-size:14px;color:var(--muted);margin:0 0 6px;max-width:760px;line-height:1.5}
+  .stagewrap{position:relative;width:100%;height:420px;margin-top:6px}
+  svg{position:absolute;inset:0;width:100%;height:100%}
+  .legend{position:absolute;left:14px;bottom:10px;display:flex;flex-direction:column;gap:7px;font-size:12px;color:var(--muted);z-index:3}
+  .legend .li{display:flex;align-items:center;gap:7px}
+  .legend .sw{width:10px;height:10px;border-radius:50%}
+  .counter{position:absolute;right:18px;top:12px;text-align:right;z-index:3}
+  .counter .big{font-size:34px;font-weight:800;color:var(--h2);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1}
+  .counter .cap{font-size:11px;color:var(--faint);letter-spacing:.04em;text-transform:uppercase}
+  .centerlabel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;z-index:4;pointer-events:none}
+  .centerlabel .nm{font-weight:800;font-size:17px;color:#fff}
+  .centerlabel .sb{font-size:10.5px;color:#FCE7F1}
+  .arc{text-align:center;font-size:13.5px;color:var(--muted);margin-top:12px}
+  .arc b{color:var(--ink)}
+  .footr{font-size:11px;color:var(--faint);margin-top:14px;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="top"></div>
+  <div class="pad">
+    <p class="eyebrow">Horizon 3 · why it matters</p>
+    <h1>The platform has gravity</h1>
+    <p class="sub">Once SaaSNova becomes the GTM intelligence platform, every ISV that joins makes it stronger — and the stronger it gets, the more the whole ecosystem is pulled toward it. The business comes to you.</p>
+
+    <div class="stagewrap" id="stage">
+      <svg id="scene" viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="centerlabel"><div class="nm">SaaSNova</div><div class="sb">the GTM platform</div></div>
+      <div class="counter"><div class="big" id="cnt">30</div><div class="cap">ISVs in orbit</div></div>
+      <div class="legend">
+        <div class="li"><span class="sw" style="background:var(--h1)"></span> ISVs pulled in</div>
+        <div class="li"><span class="sw" style="background:var(--h3)"></span> Hyperscalers drawn closer</div>
+      </div>
+    </div>
+
+    <p class="arc"><b>H2 makes SaaSNova efficient. H3 makes it inevitable</b> — gravity, not effort, brings the next client. Agent-led, human-governed throughout.</p>
+    <div class="footr"><span>© 2026 SaaSNova. All rights reserved. Confidential.</span><span>Horizon 3</span></div>
+  </div>
+</div>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const scene=document.getElementById('scene');
+const CX=500,CY=210;
+
+// gravity rings
+for(let r=70;r<=320;r+=62){
+  const c=document.createElementNS(NS,'circle');
+  c.setAttribute('cx',CX);c.setAttribute('cy',CY);c.setAttribute('r',r);
+  c.setAttribute('fill','none');c.setAttribute('stroke','#ECECF2');c.setAttribute('stroke-width','1');
+  scene.appendChild(c);
+}
+// glow core
+const grad=document.createElementNS(NS,'radialGradient');grad.id='core';
+grad.innerHTML='<stop offset="0%" stop-color="#E5197B"/><stop offset="70%" stop-color="#E5197B"/><stop offset="100%" stop-color="#F0992E"/>';
+const defs=document.createElementNS(NS,'defs');defs.appendChild(grad);scene.appendChild(defs);
+const halo=document.createElementNS(NS,'circle');
+halo.setAttribute('cx',CX);halo.setAttribute('cy',CY);halo.setAttribute('r',60);
+halo.setAttribute('fill','url(#core)');halo.setAttribute('opacity','0.18');scene.appendChild(halo);
+const core=document.createElementNS(NS,'circle');
+core.setAttribute('cx',CX);core.setAttribute('cy',CY);core.setAttribute('r',46);
+core.setAttribute('fill','url(#core)');scene.appendChild(core);
+
+// hyperscalers (3 big nodes at edges, slowly drawn in)
+const clouds=[{x:120,y:80,n:'AWS'},{x:880,y:90,n:'Azure'},{x:860,y:340,n:'GCP'}];
+const cloudEls=clouds.map(c=>{
+  const g=document.createElementNS(NS,'g');
+  const circ=document.createElementNS(NS,'circle');
+  circ.setAttribute('cx',c.x);circ.setAttribute('cy',c.y);circ.setAttribute('r',26);
+  circ.setAttribute('fill','#FFF2E2');circ.setAttribute('stroke','#F0992E');circ.setAttribute('stroke-width','2');
+  const t=document.createElementNS(NS,'text');
+  t.setAttribute('x',c.x);t.setAttribute('y',c.y+4);t.setAttribute('text-anchor','middle');
+  t.setAttribute('font-size','12');t.setAttribute('font-weight','700');t.setAttribute('fill','#B8761A');
+  t.setAttribute('font-family','-apple-system,sans-serif');t.textContent=c.n;
+  g.appendChild(circ);g.appendChild(t);scene.appendChild(g);
+  return {g,circ,t,x:c.x,y:c.y};
+});
+
+// orbiting ISV dots that spiral inward
+const dots=[];
+function spawnDot(){
+  const ang=Math.random()*Math.PI*2;
+  const rad=200+Math.random()*120;
+  const d=document.createElementNS(NS,'circle');
+  d.setAttribute('r',Math.random()*2.5+2);
+  d.setAttribute('fill','#1E9BE0');
+  d.setAttribute('opacity','0.85');
+  scene.appendChild(d);
+  dots.push({el:d,ang,rad,speed:0.004+Math.random()*0.006,pull:0.18+Math.random()*0.25});
+}
+for(let i=0;i<26;i++)spawnDot();
+
+let cloudPull=0;
+function frame(){
+  dots.forEach(o=>{
+    o.ang+=o.speed*(1+ (250-o.rad)/250); // faster as closer
+    o.rad-=o.pull;
+    if(o.rad<52){ o.rad=200+Math.random()*120; o.ang=Math.random()*Math.PI*2; }
+    o.el.setAttribute('cx',CX+Math.cos(o.ang)*o.rad);
+    o.el.setAttribute('cy',CY+Math.sin(o.ang)*o.rad);
+    o.el.setAttribute('opacity', (0.3+0.6*(1-(o.rad-52)/270)).toFixed(2));
+  });
+  // clouds drift slightly inward over time then hold
+  cloudEls.forEach(c=>{
+    const dx=CX-c.x, dy=CY-c.y, dist=Math.hypot(dx,dy);
+    if(dist>175){ c.x+=dx/dist*0.25; c.y+=dy/dist*0.25;
+      c.circ.setAttribute('cx',c.x);c.circ.setAttribute('cy',c.y);
+      c.t.setAttribute('x',c.x);c.t.setAttribute('y',c.y+4);
+    }
+  });
+  requestAnimationFrame(frame);
+}
+frame();
+
+// counter climbs, and dots get added as it grows (stronger gravity feel)
+const cnt=document.getElementById('cnt');
+const targets=[30,120,400,1200,3000];
+let ti=0;
+setInterval(()=>{
+  ti=(ti+1)%targets.length;
+  if(ti===0){ // reset visual density softly
+  }
+  cnt.textContent=targets[ti].toLocaleString();
+  // add a few dots as it grows
+  if(ti>0){ for(let k=0;k<4;k++) spawnDot(); }
+  else { while(dots.length>26){ const d=dots.pop(); d.el.remove(); } }
+  // pulse halo
+  halo.animate([{opacity:.18},{opacity:.34},{opacity:.18}],{duration:900});
+},1900);
+</script>
+</body>
+</html>
