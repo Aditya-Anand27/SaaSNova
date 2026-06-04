@@ -4,21 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>H3 — The Gravity of the Platform</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.7.0/tabler-icons.min.css">
 <style>
   :root{
-    --ink:#15161D;--muted:#5A5C68;--faint:#8A8C98;--line:#E8E8EE;--paper:#FFFFFF;--bg:#EDEDF2;
+    --ink:#15161D;--muted:#5A5C68;--faint:#8A8C98;--line:#E8E8EE;--paper:#FFFFFF;
     --h1:#1E9BE0;--h2:#E5197B;--h3:#F0992E;
   }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding:30px 22px;display:flex;justify-content:center}
-  .slide{width:1060px;max-width:100%;background:var(--paper);border-radius:14px;box-shadow:0 14px 44px rgba(20,20,40,.16);overflow:hidden}
-  .top{height:9px;background:linear-gradient(90deg,var(--h1),var(--h2),var(--h3))}
-  .pad{padding:28px 38px 30px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--paper);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+  }
+  .top{height:9px;background:linear-gradient(90deg,var(--h1),var(--h2),var(--h3));flex-shrink:0}
+  .pad{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    padding:28px 38px 30px;
+    max-width:1200px;
+    width:100%;
+    margin:0 auto;
+  }
   .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--h3);font-weight:700;margin:0 0 6px}
   h1{font-family:Georgia,serif;font-size:27px;font-weight:700;color:var(--ink);margin:0 0 5px}
   .sub{font-size:14px;color:var(--muted);margin:0 0 6px;max-width:760px;line-height:1.5}
-  .stagewrap{position:relative;width:100%;height:420px;margin-top:6px}
+  .stagewrap{position:relative;flex:1;min-height:300px;margin-top:6px}
   svg{position:absolute;inset:0;width:100%;height:100%}
   .legend{position:absolute;left:14px;bottom:10px;display:flex;flex-direction:column;gap:7px;font-size:12px;color:var(--muted);z-index:3}
   .legend .li{display:flex;align-items:center;gap:7px}
@@ -29,13 +43,12 @@
   .centerlabel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;z-index:4;pointer-events:none}
   .centerlabel .nm{font-weight:800;font-size:17px;color:#fff}
   .centerlabel .sb{font-size:10.5px;color:#FCE7F1}
-  .arc{text-align:center;font-size:13.5px;color:var(--muted);margin-top:12px}
+  .arc{text-align:center;font-size:13.5px;color:var(--muted);margin-top:12px;flex-shrink:0}
   .arc b{color:var(--ink)}
-  .footr{font-size:11px;color:var(--faint);margin-top:14px;display:flex;justify-content:space-between}
+  .footr{font-size:11px;color:var(--faint);margin-top:14px;display:flex;justify-content:space-between;flex-shrink:0}
 </style>
 </head>
 <body>
-<div class="slide">
   <div class="top"></div>
   <div class="pad">
     <p class="eyebrow">Horizon 3 · why it matters</p>
@@ -55,21 +68,18 @@
     <p class="arc"><b>H2 makes SaaSNova efficient. H3 makes it inevitable</b> — gravity, not effort, brings the next client. Agent-led, human-governed throughout.</p>
     <div class="footr"><span>© 2026 SaaSNova. All rights reserved. Confidential.</span><span>Horizon 3</span></div>
   </div>
-</div>
 
 <script>
 const NS='http://www.w3.org/2000/svg';
 const scene=document.getElementById('scene');
 const CX=500,CY=210;
 
-// gravity rings
 for(let r=70;r<=320;r+=62){
   const c=document.createElementNS(NS,'circle');
   c.setAttribute('cx',CX);c.setAttribute('cy',CY);c.setAttribute('r',r);
   c.setAttribute('fill','none');c.setAttribute('stroke','#ECECF2');c.setAttribute('stroke-width','1');
   scene.appendChild(c);
 }
-// glow core
 const grad=document.createElementNS(NS,'radialGradient');grad.id='core';
 grad.innerHTML='<stop offset="0%" stop-color="#E5197B"/><stop offset="70%" stop-color="#E5197B"/><stop offset="100%" stop-color="#F0992E"/>';
 const defs=document.createElementNS(NS,'defs');defs.appendChild(grad);scene.appendChild(defs);
@@ -80,7 +90,6 @@ const core=document.createElementNS(NS,'circle');
 core.setAttribute('cx',CX);core.setAttribute('cy',CY);core.setAttribute('r',46);
 core.setAttribute('fill','url(#core)');scene.appendChild(core);
 
-// hyperscalers (3 big nodes at edges, slowly drawn in)
 const clouds=[{x:120,y:80,n:'AWS'},{x:880,y:90,n:'Azure'},{x:860,y:340,n:'GCP'}];
 const cloudEls=clouds.map(c=>{
   const g=document.createElementNS(NS,'g');
@@ -95,7 +104,6 @@ const cloudEls=clouds.map(c=>{
   return {g,circ,t,x:c.x,y:c.y};
 });
 
-// orbiting ISV dots that spiral inward
 const dots=[];
 function spawnDot(){
   const ang=Math.random()*Math.PI*2;
@@ -112,17 +120,16 @@ for(let i=0;i<26;i++)spawnDot();
 let cloudPull=0;
 function frame(){
   dots.forEach(o=>{
-    o.ang+=o.speed*(1+ (250-o.rad)/250); // faster as closer
+    o.ang+=o.speed*(1+(250-o.rad)/250);
     o.rad-=o.pull;
-    if(o.rad<52){ o.rad=200+Math.random()*120; o.ang=Math.random()*Math.PI*2; }
+    if(o.rad<52){o.rad=200+Math.random()*120;o.ang=Math.random()*Math.PI*2;}
     o.el.setAttribute('cx',CX+Math.cos(o.ang)*o.rad);
     o.el.setAttribute('cy',CY+Math.sin(o.ang)*o.rad);
-    o.el.setAttribute('opacity', (0.3+0.6*(1-(o.rad-52)/270)).toFixed(2));
+    o.el.setAttribute('opacity',(0.3+0.6*(1-(o.rad-52)/270)).toFixed(2));
   });
-  // clouds drift slightly inward over time then hold
   cloudEls.forEach(c=>{
-    const dx=CX-c.x, dy=CY-c.y, dist=Math.hypot(dx,dy);
-    if(dist>175){ c.x+=dx/dist*0.25; c.y+=dy/dist*0.25;
+    const dx=CX-c.x,dy=CY-c.y,dist=Math.hypot(dx,dy);
+    if(dist>175){c.x+=dx/dist*0.25;c.y+=dy/dist*0.25;
       c.circ.setAttribute('cx',c.x);c.circ.setAttribute('cy',c.y);
       c.t.setAttribute('x',c.x);c.t.setAttribute('y',c.y+4);
     }
@@ -131,19 +138,14 @@ function frame(){
 }
 frame();
 
-// counter climbs, and dots get added as it grows (stronger gravity feel)
 const cnt=document.getElementById('cnt');
 const targets=[30,120,400,1200,3000];
 let ti=0;
 setInterval(()=>{
   ti=(ti+1)%targets.length;
-  if(ti===0){ // reset visual density softly
-  }
   cnt.textContent=targets[ti].toLocaleString();
-  // add a few dots as it grows
-  if(ti>0){ for(let k=0;k<4;k++) spawnDot(); }
-  else { while(dots.length>26){ const d=dots.pop(); d.el.remove(); } }
-  // pulse halo
+  if(ti>0){for(let k=0;k<4;k++)spawnDot();}
+  else{while(dots.length>26){const d=dots.pop();d.el.remove();}}
   halo.animate([{opacity:.18},{opacity:.34},{opacity:.18}],{duration:900});
 },1900);
 </script>
